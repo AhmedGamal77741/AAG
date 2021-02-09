@@ -1,3 +1,6 @@
+
+
+import 'package:AAG/info.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:developer';
@@ -5,7 +8,15 @@ import 'package:tflite_audio/tflite_audio.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+  MaterialApp(
+    initialRoute:'home',
+    routes:{
+      'home':(context)=>MyApp(),
+      'info':(context)=>Info(),
+    }
+  )
+);
 
 ///This example showcases how to take advantage of all the futures and streams
 ///from the plugin.
@@ -19,17 +30,15 @@ class _MyAppState extends State<MyApp> {
   final isRecording = ValueNotifier<bool>(false);
   Stream<Map<dynamic, dynamic>> result;
 
-  
-
-  //!example values for google's teachable machine model
-  final String model = 'assets/soundclassifier.tflite';
-  final String label = 'assets/labels.txt';
-  final String inputType = 'rawAudio';
-  final int sampleRate = 44100;
-  final int recordingLength = 44032;
-  final int bufferSize = 22016;
+  final String model = 'assets/decoded_wav_model.tflite';
+  final String label = 'assets/decoded_wav_label.txt';
+  final String inputType = 'decodedWav';
+  final int sampleRate = 16000;
+  final int recordingLength = 16000;
+  final int bufferSize = 2000;
   final int numOfInferences = 1;
 
+ 
   @override
   void initState() {
     super.initState();
@@ -80,6 +89,15 @@ class _MyAppState extends State<MyApp> {
             key: _scaffoldKey,
             appBar: AppBar(
               title: const Text('Tflite-audio/speech'),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.info_outline),
+                   onPressed: (){
+                    Navigator.pushNamed(context, 'info');
+                   }
+                   ),
+              ],
             ),
             //Streambuilder for inference results
             body: StreamBuilder<Map<dynamic, dynamic>>(

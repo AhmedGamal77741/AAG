@@ -1,0 +1,12 @@
+_silence_
+_unknown_
+drinking-a
+sleeping-a
+eating-a
+bath-b
+tired-a
+drinking-b
+bath-a
+tired-b
+eating-b
+sleeping-b
